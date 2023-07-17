@@ -21,8 +21,8 @@ class LoadVideo:
                     {
                     "videoPath": ("STRING", {"forceInput": True}),
                     "sample_start_idx": ("INT", {"default": 1, "min": 1, "max": 10000}),
-                    "n_sample_frames": ("INT", {"default": 1, "min": 1, "max": 100000}),
-                    "extract_audio": (["enable", "disable"], ),
+                    "n_sample_frames": ("INT", {"default": 0, "min": 0, "max": 100000}),
+                    "extract_audio": ([True,False], ),
                     "filename_prefix": ("STRING", {"default": "comfyUI"}),
                     },
                 }
@@ -49,10 +49,11 @@ class LoadVideo:
             if not flag:  # 如果已经读取到最后一帧则退出
                 break
             count+=1
-            if sample_start_idx>count:
-                continue
-            if (sample_start_idx+n_sample_frames)<=count:
-                break
+            if n_sample_frames>0:
+                if sample_start_idx>count:
+                    continue
+                if (sample_start_idx+n_sample_frames)<=count:
+                    break
             image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
             image = np.array(image).astype(np.float32) / 255.0
             image = torch.from_numpy(image)[None,]
@@ -60,13 +61,13 @@ class LoadVideo:
             sample_frames.append(image)
         cap.release()   # 释放资源
         filePathName=''
-        if extract_audio=='enable':
+        if extract_audio:
             full_output_folder, filename, counter, subfolder, filename_prefix = folder_paths.get_save_image_path(filename_prefix, self.output_dir)
             file = f"{filename}_{counter:05}_.mp3"
             filePathName=os.path.join(full_output_folder, file)
             ff = FFmpeg(inputs={videoPath: None},outputs={filePathName: '-f {} -vn'.format('mp3')})
             ff.run()
-        return {"ui": {"text": "音频提取成功，保存路径："+filePathName if extract_audio=='enable' else '需要提取音频请设置extract_audio为enable'}, "result": (torch.stack(sample_frames),fps,frames,filePathName,)}
+        return {"ui": {"text": "音频提取成功，保存路径："+filePathName if extract_audio else '需要提取音频请设置extract_audio为True'}, "result": (torch.stack(sample_frames),fps,frames,filePathName,)}
 
 NODE_CLASS_MAPPINGS = {
     "LoadVideo": LoadVideo
