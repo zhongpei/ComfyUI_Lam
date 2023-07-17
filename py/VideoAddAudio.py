@@ -14,8 +14,8 @@ class VideoAddAudio:
     def INPUT_TYPES(s):
         return {"required":
                     {
-                        "videoPath": ("STRING", {"default": ""}),
-                        "audioPath": ("STRING", {"default": ""}),
+                        "videoPath": ("STRING", {"forceInput": True}),
+                        "audioPath": ("STRING", {"forceInput": True}),
                         "filename_prefix": ("STRING", {"default": "comfyUI"}),
                     },
                 }

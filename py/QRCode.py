@@ -33,22 +33,8 @@ class QRCode:
     
     @classmethod
     def INPUT_TYPES(s):
-        """
-            Return a dictionary which contains config for all input fields.
-            Some types (string): "MODEL", "VAE", "CLIP", "CONDITIONING", "LATENT", "IMAGE", "INT", "STRING", "FLOAT".
-            Input types "INT", "STRING" or "FLOAT" are special values for fields on the node.
-            The type can be a list for selection.
-
-            Returns: `dict`:
-                - Key input_fields_group (`string`): Can be either required, hidden or optional. A node class must have property `required`
-                - Value input_fields (`dict`): Contains input fields config:
-                    * Key field_name (`string`): Name of a entry-point method's argument
-                    * Value field_config (`tuple`):
-                        + First value is a string indicate the type of field or a list for selection.
-                        + Secound value is a config for type "INT", "STRING" or "FLOAT".
-        """
         return {
-            "required": {"text": ("STRING", {"multiline": True}),
+            "required": {"text": ("STRING",{"default": ""}),
                 "version": ("INT", {"default": 1, "min": 1, "max": 40, "step": 1}),
                 "box_size": ("INT", {"default": 10, "min": 1, "max": 500, "step": 10}),
                 "border": ("INT", {"default": 1, "min": 1, "max": 10, "step": 1}),
@@ -71,6 +57,7 @@ class QRCode:
                 box_size=box_size,
                 border=border
                 )#设置二维码的大小
+        print(text)
         qr.add_data(text)  #这里是填网站
         qr.make(fit=True)
         img = qr.make_image()

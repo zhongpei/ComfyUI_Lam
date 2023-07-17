@@ -18,7 +18,8 @@ class LoadVideo:
             os .makedirs(input_dir)
         files = [f for f in os.listdir(input_dir) if os.path.isfile(os.path.join(input_dir, f))]
         return {"required":
-                    {"video": (sorted(files), ),
+                    {
+                    "videoPath": ("STRING", {"forceInput": True}),
                     "sample_start_idx": ("INT", {"default": 1, "min": 1, "max": 10000}),
                     "n_sample_frames": ("INT", {"default": 1, "min": 1, "max": 100000}),
                     "extract_audio": (["enable", "disable"], ),
@@ -33,15 +34,13 @@ class LoadVideo:
     FUNCTION = "load_image"
     OUTPUT_NODE = True
 
-    def load_image(self, video,sample_start_idx,n_sample_frames,extract_audio,filename_prefix):
-        input_dir = os.path.join(folder_paths.get_input_directory(), 'video')
-        video_path = folder_paths.get_annotated_filepath(video,input_dir)
-        cap = cv2.VideoCapture(video_path)
+    def load_image(self, videoPath,sample_start_idx,n_sample_frames,extract_audio,filename_prefix):
+        cap = cv2.VideoCapture(videoPath)
         fps = cap.get(cv2.CAP_PROP_FPS)
         frames = cap.get(cv2.CAP_PROP_FRAME_COUNT)
         flag = cap.isOpened()
         if not flag:
-                print("\033[31mLine 65 error\033[31m: open" + video_path + "error!")
+                print("\033[31mLine 65 error\033[31m: open" + videoPath + "error!")
 
         sample_frames = []
         count=0
@@ -65,7 +64,7 @@ class LoadVideo:
             full_output_folder, filename, counter, subfolder, filename_prefix = folder_paths.get_save_image_path(filename_prefix, self.output_dir)
             file = f"{filename}_{counter:05}_.mp3"
             filePathName=os.path.join(full_output_folder, file)
-            ff = FFmpeg(inputs={video_path: None},outputs={filePathName: '-f {} -vn'.format('mp3')})
+            ff = FFmpeg(inputs={videoPath: None},outputs={filePathName: '-f {} -vn'.format('mp3')})
             ff.run()
         return {"ui": {"text": "音频提取成功，保存路径："+filePathName if extract_audio=='enable' else '需要提取音频请设置extract_audio为enable'}, "result": (torch.stack(sample_frames),fps,frames,filePathName,)}
 

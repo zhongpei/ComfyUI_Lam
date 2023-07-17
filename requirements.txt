@@ -1,0 +1,7 @@
+qrcode
+edge_tts
+asyncio
+opencv-python
+pillow
+ffmpy
+modelscope
