@@ -1,4 +1,5 @@
-根据图片解压到指定插件目录及名称，然后运行install.bat文件，未报错后就可以了
+根据图片解压到指定插件目录及名称，然后运行install.bat文件，未报错后就可以了，
+将venv.rar解压到..\ComfyUI_windows_portable\python_embeded\Lib\site-packages目录
 模型地址，及存放路径：
 lama模型：
 https://huggingface.co/lllyasviel/Annotators/resolve/main/ControlNetLama.pth  ..\ComfyUI\models\lama\ControlNetLama.pth
