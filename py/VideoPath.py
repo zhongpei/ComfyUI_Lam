@@ -12,11 +12,10 @@ class VideoPath:
 
     @classmethod
     def INPUT_TYPES(cls):
-        input_dir = os.path.join(folder_paths.get_input_directory(), 'video')
-        
-        if not os.path.exists(input_dir):
-            os .makedirs(input_dir)
-        files = [f for f in os.listdir(input_dir) if os.path.isfile(os.path.join(input_dir, f))]
+        input_video_dir = os.path.join(folder_paths.get_input_directory(), 'video')
+        if not os.path.exists(input_video_dir):
+            os .makedirs(input_video_dir)
+        files = [f for f in os.listdir(input_video_dir) if os.path.isfile(os.path.join(input_video_dir, f))]
         return {
             "required": {
                 "video": (sorted(files), ),

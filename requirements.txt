@@ -1,7 +1,17 @@
+scikit-image
+yacs
+librosa
+omegaconf
+pytorch-lightning
+pydub
+gfpgan
+kornia
+facexlib
 qrcode
 edge_tts
 asyncio
 opencv-python
+numpy==1.24
 pillow
 ffmpy
 modelscope

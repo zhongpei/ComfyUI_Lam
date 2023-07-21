@@ -1,1 +1,1 @@
-用文本编辑器，修改install.bat文件，将里面的python.exe路径修改为当前python路径
+根据图片解压到指定插件目录及名称，然后运行install.bat文件，未报错后就可以了

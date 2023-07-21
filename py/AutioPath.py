@@ -12,6 +12,8 @@ class AutioPath:
     @classmethod
     def INPUT_TYPES(cls):
         input_autio_dir = os.path.join(folder_paths.get_input_directory(), 'autio')
+        if not os.path.exists(input_autio_dir):
+            os .makedirs(input_autio_dir)
         autiofiles = [f for f in os.listdir(input_autio_dir) if os.path.isfile(os.path.join(input_autio_dir, f))]
         return {
             "required": {

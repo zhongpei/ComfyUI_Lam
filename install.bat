@@ -1,10 +1,10 @@
 @echo off
-CALL :NORMALIZEPATH "D:\Anaconda3\envs\stable-diffusion\python.exe"
-if exist "D:\Anaconda3\envs\stable-diffusion\python.exe" (
+CALL :NORMALIZEPATH "..\..\..\python_embeded\python.exe"
+if exist "..\..\..\python_embeded\python.exe" (
     echo Custom Python build of ComfyUI standalone executable detected:
     echo "%RETVAL%"
     echo --------------------------------------------------
-    D:\Anaconda3\envs\stable-diffusion\python.exe install.py %1
+    ..\..\..\python_embeded\python.exe install.py %1
 ) else (
     for /f "tokens=*" %%i in ('where python') do set "PYTHON_PATH=%%i" & goto :done
     :done

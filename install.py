@@ -27,6 +27,7 @@ def download_models():
 command = [sys.executable]
 if "python_embeded" in sys.executable: command += ['-s']
 command += ['-m','pip', 'install', '-r' , f'{EXT_PATH}/requirements.txt', 
+    '--index-url' , 'https://pypi.tuna.tsinghua.edu.cn/simple',
     '--extra-index-url', 'https://download.pytorch.org/whl/cu117', '--no-warn-script-location']
 print("Installing requirements...")
 sleep(2)
