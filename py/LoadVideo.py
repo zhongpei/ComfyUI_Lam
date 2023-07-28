@@ -40,7 +40,7 @@ class LoadVideo:
         frames = cap.get(cv2.CAP_PROP_FRAME_COUNT)
         flag = cap.isOpened()
         if not flag:
-                print("\033[31mLine 65 error\033[31m: open" + videoPath + "error!")
+            print("\033[31mLine 65 error\033[31m: open" + videoPath + "error!")
 
         sample_frames = []
         count=0
@@ -49,9 +49,9 @@ class LoadVideo:
             if not flag:  # 如果已经读取到最后一帧则退出
                 break
             count+=1
+            if sample_start_idx>count:
+                continue
             if n_sample_frames>0:
-                if sample_start_idx>count:
-                    continue
                 if (sample_start_idx+n_sample_frames)<=count:
                     break
             image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)

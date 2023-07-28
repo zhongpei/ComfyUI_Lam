@@ -6,7 +6,9 @@ import { ComfyWidgets } from "/scripts/widgets.js";
 app.registerExtension({
     name: "StatusInfo",
     async beforeRegisterNodeDef(nodeType, nodeData, app) {
-        if (nodeData.name === "Image2Video" || nodeData.name === 'LoadVideo' || nodeData.name === 'VideoAddAudio' || nodeData.name === 'Image2TalkingFace') {
+        if (nodeData.name === "Image2Video" || nodeData.name === 'LoadVideo' 
+			|| nodeData.name === 'VideoAddAudio' || nodeData.name === 'Image2TalkingFace'
+			|| nodeData.name === 'ForEnd' ) {
             // When the node is created we want to add a readonly text widget to display the text
             const onNodeCreated = nodeType.prototype.onNodeCreated;
             nodeType.prototype.onNodeCreated = function() {
