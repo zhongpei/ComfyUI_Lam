@@ -34,6 +34,7 @@ class ForEnd:
         data = json.loads(result)
         #rdata=data[list(data.keys())[0]]
         rdata=data['queue_running'][0] if len(data['queue_running'])>0 else []
+        index=0
         if len(rdata)>0:
             pdata=json.loads('{}')
             pdata['client_id']=rdata[3]['client_id']
@@ -42,11 +43,12 @@ class ForEnd:
             for key in list(pdata['prompt'].keys()):
                 if pdata['prompt'][key]['class_type']=='ForStart':
                     pdata['prompt'][key]['inputs']['i']=i
+                    index=i//pdata['prompt'][key]['inputs']['stop']
                     break
             r = requests.post("http://127.0.0.1:"+str(port)+"/prompt",json=pdata)
             result = r.text
 
-        return { "ui": { "text":"第"+str(i)+"次循环结果："+result} }
+        return { "ui": { "text":"第"+str(index)+"次循环结果："+result} }
 
 NODE_CLASS_MAPPINGS = {
     "ForEnd": ForEnd
