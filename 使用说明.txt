@@ -14,3 +14,6 @@ https://github.com/xinntao/facexlib/releases/download/v0.1.0/alignment_WFLW_4HG.
 https://github.com/xinntao/facexlib/releases/download/v0.1.0/detection_Resnet50_Final.pth ..\ComfyUI\gfpgan\weights\detection_Resnet50_Final.pth 
 https://github.com/TencentARC/GFPGAN/releases/download/v1.3.0/GFPGANv1.4.pth ..\ComfyUI\gfpgan\weights\GFPGANv1.4.pth 
 https://github.com/xinntao/facexlib/releases/download/v0.2.2/parsing_parsenet.pth ..\ComfyUI\gfpgan\weights\parsing_parsenet.pth 
+
+修改comfyUI根目录下的execution.py文件，修改内容为,搜索“Return type mismatch between linked nodes”找到对应行，
+替换if r[val[1]] != type_input: 为 if type_input !="*" and r[val[1]] != type_input:

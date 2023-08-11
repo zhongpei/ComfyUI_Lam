@@ -6,7 +6,7 @@ import numpy as np
 from ffmpy import FFmpeg
 from custom_nodes.ComfyUI_Lam.src.gradio_demo import SadTalker  
 
-class Image2TalkingFace:
+class Video2TalkingFace:
     def __init__(self):
         self.output_dir = os.path.join(folder_paths.get_output_directory(), 'video')
         self.checkpoint_path=os.path.join(folder_paths.models_dir, 'SadTalker')
@@ -18,14 +18,10 @@ class Image2TalkingFace:
     def INPUT_TYPES(s):
         return {"required":
                     {
-                        "images": ("IMAGE", ),
+                        "videoPath": ("STRING", {"forceInput": True}),
                         "audioPath": ("STRING", {"forceInput": True}),
-                        "pose_style": ("INT", {"default": 0, "min": 0, "max": 64}),
-                        "size_of_image": ([256, 512], ),
-                        "preprocess_type":(['crop', 'resize','full', 'extcrop', 'extfull'], ),
-                        "is_still_mode": ([ False, True ], ),
                         "batch_size": ("INT", {"default": 1, "min": 1, "max": 10}),
-                        "enhancer": ([ False, True ], ),
+                        "enhancer": ([ 'none','lip','face' ], ),
                     },
                 }
 
@@ -36,16 +32,16 @@ class Image2TalkingFace:
     FUNCTION = "sad_talker"
     OUTPUT_NODE = True
 
-    def sad_talker(self, images,audioPath,pose_style,size_of_image,preprocess_type,is_still_mode,batch_size,enhancer):
+    def sad_talker(self, videoPath,audioPath,batch_size,enhancer):
         sad_talker = SadTalker(self.checkpoint_path, "custom_nodes/ComfyUI_Lam/src/config", lazy_load=True)
-        autio_path=sad_talker.run_image_2_video(images, audioPath,preprocess_type,is_still_mode,enhancer,batch_size,size_of_image,pose_style,result_dir=self.output_dir)
+        autio_path=sad_talker.run_video_2_video(videoPath,audioPath,enhancer,batch_size,result_dir=self.output_dir)
         return {"ui": {"text": "视频合成成功，保存路径："+autio_path}, "result": (autio_path,)}
 
 NODE_CLASS_MAPPINGS = {
-    "Image2TalkingFace": Image2TalkingFace
+    "Video2TalkingFace": Video2TalkingFace
 }
 
 # A dictionary that contains the friendly/humanly readable titles for the nodes
 NODE_DISPLAY_NAME_MAPPINGS = {
-    "Image2TalkingFace": "图像转说话的人脸动画"
+    "Video2TalkingFace": "视频转说话的人脸动画"
 }
