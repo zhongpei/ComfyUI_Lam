@@ -3,7 +3,6 @@ import cv2
 import os
 import torch
 import numpy as np
-from ffmpy import FFmpeg
 from custom_nodes.ComfyUI_Lam.src.gradio_demo import SadTalker  
 
 class Image2TalkingFace:

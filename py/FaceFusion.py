@@ -2,10 +2,9 @@ import cv2
 import os
 import torch
 import numpy as np
-from modelscope.outputs import OutputKeys
-from modelscope.pipelines import pipeline
-from modelscope.utils.constant import Tasks
+from custom_nodes.ComfyUI_Lam.src.face_fusion.image_face_fusion import ImageFaceFusion
 from PIL import Image
+import folder_paths
 
 class FaceFusion:
     @classmethod
@@ -22,7 +21,8 @@ class FaceFusion:
 
     FUNCTION = "face_fusion"
     def face_fusion(self,template_image,user_image):
-        image_face_fusion = pipeline(Tasks.image_face_fusion, model='damo/cv_unet-image-face-fusion_damo')
+        image_face_fusion = ImageFaceFusion(model_dir=folder_paths.models_dir+'/image-face-fusion')
+
         imaget_np=template_image.numpy()
         imageu_np=user_image.numpy()
         imgt_shape=imaget_np.shape
@@ -32,12 +32,11 @@ class FaceFusion:
 
         sample_frames = []
         imageu=imageu_np[0]*255
-        imageu=Image.fromarray(np.uint8(imageu))
+        imageu=np.uint8(imageu)
         for i in range(imgt_shape[0]):
             imaget=imaget_np[i]*255
-            imaget=Image.fromarray(np.uint8(imaget))
-            result = image_face_fusion(dict(template=imaget, user=imageu))
-            image = result[OutputKeys.OUTPUT_IMG]
+            imaget=np.uint8(imaget)
+            image = image_face_fusion.inference(imaget,imageu)
             image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
             image = np.array(image).astype(np.float32) / 255.0
             image = torch.from_numpy(image)[None,]

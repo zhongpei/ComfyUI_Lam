@@ -28,5 +28,6 @@ asyncio
 opencv-python==4.7.0.72
 pillow==9.4.0
 ffmpy==0.3.0
-modelscope==1.4.2
 dlib-bin
+GitPython
+torchmetrics==0.11.4
