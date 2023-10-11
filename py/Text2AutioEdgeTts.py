@@ -24,6 +24,7 @@ class Text2AutioEdgeTts:
     RETURN_TYPES = ("STRING",)
     RETURN_NAMES = ("音频地址",)
     FUNCTION = "text_2_autio"
+    OUTPUT_NODE = True
 
     CATEGORY = "lam"
 
@@ -32,7 +33,8 @@ class Text2AutioEdgeTts:
         file = f"{filename}_{counter:05}_.mp3"
         autio_path=os.path.join(full_output_folder, file)
         asyncio.run(edge_tts_text_2_aution(voice,text,autio_path))
-        return (autio_path, )
+        return {"ui": {"text": "音频保存成功文件地址："+os.path.join(full_output_folder, file),
+        'autios':[{'filename':file,'type':'output','subfolder':'autio'}]}, "result": (autio_path, )}
 
 
 async def edge_tts_text_2_aution(VOICE,TEXT,OUTPUT_FILE) -> None:

@@ -1,6 +1,6 @@
 import folder_paths
 import cv2
-import os
+import os,shutil
 import torch
 import numpy as np
 from custom_nodes.ComfyUI_Lam.src.gradio_demo import SadTalker  
@@ -21,6 +21,7 @@ class Video2TalkingFace:
                         "audioPath": ("STRING", {"forceInput": True}),
                         "batch_size": ("INT", {"default": 1, "min": 1, "max": 10}),
                         "enhancer": ([ 'none','lip','face' ], ),
+                        "filename_prefix": ("STRING", {"default": "comfyUI"}),
                     },
                 }
 
@@ -31,10 +32,15 @@ class Video2TalkingFace:
     FUNCTION = "sad_talker"
     OUTPUT_NODE = True
 
-    def sad_talker(self, videoPath,audioPath,batch_size,enhancer):
+    def sad_talker(self, videoPath,audioPath,batch_size,enhancer,filename_prefix):
         sad_talker = SadTalker(self.checkpoint_path, "custom_nodes/ComfyUI_Lam/src/config", lazy_load=True)
         autio_path=sad_talker.run_video_2_video(videoPath,audioPath,enhancer,batch_size,result_dir=self.output_dir)
-        return {"ui": {"text": "视频合成成功，保存路径："+autio_path}, "result": (autio_path,)}
+        full_output_folder, filename, counter, subfolder, filename_prefix = folder_paths.get_save_image_path(filename_prefix, self.output_dir)
+        file = f"{filename}_{counter:05}_.mp4"
+        shutil.move(autio_path, os.path.join(full_output_folder, file))
+        autio_path=os.path.join(full_output_folder, file)
+        return {"ui": {"text": "视频合成成功，保存路径："+autio_path,
+        "filename_prefix": ("STRING", {"default": "comfyUI"}),}, "result": (autio_path,)}
 
 NODE_CLASS_MAPPINGS = {
     "Video2TalkingFace": Video2TalkingFace

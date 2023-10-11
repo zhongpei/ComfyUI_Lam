@@ -208,15 +208,15 @@ class ImageFaceFusion():
         user_img_bgr = user_img[:, :, ::-1]
         landmark_source = self.detect_face(user_img)
         if landmark_source is None:
-            logger.warning('No face detected in user image!')
-            return template_img
+            #logger.warning('No face detected in user image!')
+            return cv2.cvtColor(template_img, cv2.COLOR_RGB2BGR) #bgr转rgb
         f5p_user = get_f5p(landmark_source, user_img_bgr)
 
         template_img_bgr = template_img[:, :, ::-1]
         landmark_template = self.detect_face(template_img)
         if landmark_template is None:
-            logger.warning('No face detected in template image!')
-            return template_img
+            #logger.warning('No face detected in template image!')
+            return cv2.cvtColor(template_img, cv2.COLOR_RGB2BGR) #bgr转rgb
         f5p_template = get_f5p(landmark_template, template_img_bgr)
 
         Xs_embeds, Xs = self.extract_id(user_img, f5p_user)

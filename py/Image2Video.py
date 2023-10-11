@@ -3,6 +3,7 @@ import cv2
 import os
 import torch
 import numpy as np
+import imageio
 
 class Image2Video:
     def __init__(self):
@@ -32,13 +33,13 @@ class Image2Video:
         imgt_shape=imaget_np.shape
         full_output_folder, filename, counter, subfolder, filename_prefix = folder_paths.get_save_image_path(filename_prefix, self.output_dir, images[0].shape[1], images[0].shape[0])
         file = f"{filename}_{counter:05}_.mp4"
-        video = cv2.VideoWriter(os.path.join(full_output_folder, file),cv2.VideoWriter_fourcc('m', 'p', '4', 'v'),fps,(imgt_shape[2],imgt_shape[1]))
-        for i in range(imgt_shape[0]):
-            imaget=np.uint8(imaget_np[i]*255)
-            imaget = cv2.cvtColor(imaget, cv2.COLOR_BGR2RGB)
-            for n in range(img_frame_size):
-                video.write(imaget) # 写入视频
-        return {"ui": {"text": "视频保存成功文件地址："+os.path.join(full_output_folder, file)}, "result": (os.path.join(full_output_folder, file),)}
+        with imageio.get_writer(os.path.join(full_output_folder, file), fps=fps) as video:
+            for i in range(imgt_shape[0]):
+                imaget=np.uint8(imaget_np[i]*255)
+                for n in range(img_frame_size):
+                    video.append_data(imaget)# 写入视频
+        return {"ui": {"text": "视频保存成功文件地址："+os.path.join(full_output_folder, file),
+        'videos':[{'filename':file,'type':'output','subfolder':'video'}]}, "result": (os.path.join(full_output_folder, file),)}
 
 NODE_CLASS_MAPPINGS = {
     "Image2Video": Image2Video

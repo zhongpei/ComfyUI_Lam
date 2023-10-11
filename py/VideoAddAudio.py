@@ -40,7 +40,8 @@ class VideoAddAudio:
             inputs={videoPath: None, audioPath: None},
             outputs={result: '-map 0:v -map 1:a -c:v copy -c:a {} -shortest'.format(_codec)})
         ff.run()
-        return {"ui": {"text": "视频插入音频成功，保存路径："+result}}
+        return {"ui": {"text": "视频插入音频成功，保存路径："+result,
+        'videos':[{'filename':file,'type':'output','subfolder':'video'}]}}
 
 NODE_CLASS_MAPPINGS = {
     "VideoAddAudio": VideoAddAudio
