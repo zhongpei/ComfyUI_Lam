@@ -1,5 +1,9 @@
-根据图片解压到指定插件目录及名称，然后运行install.bat文件，未报错后就可以了，
+
+根据图片解压到指定插件目录及名称，
+将insightface.rar解压到..\ComfyUI_windows_portable\python_embeded\Lib\site-packages目录
 将venv.rar解压到..\ComfyUI_windows_portable\python_embeded\Lib\site-packages目录
+然后运行install.bat文件，未报错后就可以了，
+
 模型地址，及存放路径：
 lama模型：
 https://huggingface.co/lllyasviel/Annotators/resolve/main/ControlNetLama.pth  ..\ComfyUI\models\lama\ControlNetLama.pth
@@ -19,6 +23,13 @@ image-face-fusion模型换脸模型
 链接：https://pan.baidu.com/s/19DOgJQ_RHNAjfNrzSr2uTQ?pwd=gf0p 
 提取码：gf0p
 解压到 ..\ComfyUI\models\image-face-fusion 目录
+
+roop-face-swap模型换脸模型
+链接：https://pan.baidu.com/s/1cJeRtqgdeNW21Hljwuv-tA?pwd=b4yy 
+提取码：b4yy
+解压到 ..\ComfyUI\models\roop-face-swap 目录
+
+
 
 修改comfyUI根目录下的execution.py文件，修改内容为,搜索“Return type mismatch between linked nodes”找到对应行，
 替换if r[val[1]] != type_input: 为 if type_input !="*" and r[val[1]] != type_input:

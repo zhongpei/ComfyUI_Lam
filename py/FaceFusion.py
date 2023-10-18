@@ -3,6 +3,7 @@ import os
 import torch
 import numpy as np
 from custom_nodes.ComfyUI_Lam.src.face_fusion.image_face_fusion import ImageFaceFusion
+from custom_nodes.ComfyUI_Lam.third_part.GFPGAN.gfpgan import GFPGANer
 from PIL import Image
 import folder_paths
 
@@ -11,7 +12,9 @@ class FaceFusion:
     def INPUT_TYPES(s):
         return {"required":
                     {"template_image": ("IMAGE", ),
-                    "user_image": ("IMAGE", )},
+                    "user_image": ("IMAGE", ),
+                    "facerestore": ([ True, False ], ),
+                    },
                 }
 
     CATEGORY = "lam"
@@ -20,8 +23,11 @@ class FaceFusion:
     RETURN_NAMES = ("图片",)
 
     FUNCTION = "face_fusion"
-    def face_fusion(self,template_image,user_image):
+    def face_fusion(self,template_image,user_image,facerestore):
         image_face_fusion = ImageFaceFusion(model_dir=folder_paths.models_dir+'/image-face-fusion')
+        if facerestore:
+            restorer_model = GFPGANer(model_path=os.path.join(folder_paths.models_dir+'/upscale_models','GFPGANv1.4.pth'), upscale=1, arch='clean',
+                                channel_multiplier=2, bg_upsampler=None)
 
         imaget_np=template_image.numpy()
         imageu_np=user_image.numpy()
@@ -38,6 +44,10 @@ class FaceFusion:
             imaget=np.uint8(imaget)
             image = image_face_fusion.inference(imaget,imageu)
             image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+            if facerestore:
+                _,_,rimage=restorer_model.enhance(image)
+                if rimage is not None:
+                    image=rimage
             image = np.array(image).astype(np.float32) / 255.0
             image = torch.from_numpy(image)[None,]
             image = image.squeeze()

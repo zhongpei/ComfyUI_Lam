@@ -2,7 +2,7 @@ import cv2
 import os
 import torch
 import numpy as np
-from custom_nodes.ComfyUI_Lam.src.face_fusion.image_face_fusion import ImageFaceFusion
+from custom_nodes.ComfyUI_Lam.scripts.swapper import getFaceSwapModel,get_face_single
 from custom_nodes.ComfyUI_Lam.third_part.GFPGAN.gfpgan import GFPGANer
 from PIL import Image
 import folder_paths
@@ -10,7 +10,7 @@ from ffmpy import FFmpeg
 import imageio
 from tqdm import tqdm 
 
-class VideoFaceFusion:
+class VideoRoopFaceSwap:
     def __init__(self):
         self.output_dir = os.path.join(folder_paths.get_output_directory(), 'video')
         if not os.path.exists(self.output_dir):
@@ -21,7 +21,7 @@ class VideoFaceFusion:
         return {"required":
                     {"templateVideoPath": ("STRING", {"forceInput": True}),
                     "user_image": ("IMAGE", ),
-                    "filename_prefix": ("STRING", {"default": "comfyUI"}),
+                    "filename_prefix": ("STRING", {"default": "comfyUI"})
                     },
                 }
 
@@ -33,7 +33,7 @@ class VideoFaceFusion:
 
     FUNCTION = "face_fusion"
     def face_fusion(self,templateVideoPath,user_image,filename_prefix):
-        image_face_fusion = ImageFaceFusion(model_dir=folder_paths.models_dir+'/image-face-fusion')
+        face_swapper = getFaceSwapModel(folder_paths.models_dir+'/roop-face-swap/inswapper_128.onnx')
         restorer_model = GFPGANer(model_path=os.path.join(folder_paths.models_dir+'/upscale_models','GFPGANv1.4.pth'), upscale=1, arch='clean',
                                 channel_multiplier=2, bg_upsampler=None)
         imageu_np=user_image.numpy()
@@ -51,13 +51,20 @@ class VideoFaceFusion:
         if not flag:
             return {"ui": {"text": "视频打开失败"}, "result": ("",)}
         image_list=[]
-        for frame_idx in tqdm(range(length), '融合进度:'):
+        source_face = get_face_single(imageu, face_index=0)
+        target_face=None
+        for frame_idx in tqdm(range(length), '换脸进度:'):
         #while True:
             flag, frame_c = cap.read()
             if not flag:  # 如果已经读取到最后一帧则退出
                 break
             frame = cv2.cvtColor(frame_c, cv2.COLOR_BGR2RGB) #bgr转rgb
-            image=image_face_fusion.inference(frame_c,imageu)
+            if target_face is None:
+                target_face = get_face_single(frame, face_index=0)
+            if target_face is not None and source_face is not None:
+                image = face_swapper.get(frame, target_face, source_face)
+            else:
+                image = frame
             #image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB) #bgr转rgb
             image_list.append(image)
             
@@ -88,10 +95,10 @@ class VideoFaceFusion:
         'videos':[{'filename':file,'type':'output','subfolder':'video'}]}, "result": (videoPath,)}
 
 NODE_CLASS_MAPPINGS = {
-    "VideoFaceFusion": VideoFaceFusion
+    "VideoRoopFaceSwap": VideoRoopFaceSwap
 }
 
 # A dictionary that contains the friendly/humanly readable titles for the nodes
 NODE_DISPLAY_NAME_MAPPINGS = {
-    "VideoFaceFusion": "视频脸部融合"
+    "VideoRoopFaceSwap": "视频脸部替换"
 }

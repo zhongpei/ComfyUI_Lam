@@ -16,4 +16,5 @@ if exist "..\..\..\python_embeded\python.exe" (
 
 :NORMALIZEPATH
     SET RETVAL=%~f1
-    EXIT /B
+    pause
+
