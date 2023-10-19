@@ -14,10 +14,10 @@ https://github.com/OpenTalker/SadTalker/releases/download/v0.0.2-rc/SadTalker_V0
 https://github.com/OpenTalker/SadTalker/releases/download/v0.0.2-rc/SadTalker_V0.0.2_512.safetensors ..\ComfyUI\models\SadTalker\SadTalker_V0.0.2_512.safetensors
 
 gfpgan是根据启动目录来的，根据提示对应
-https://github.com/xinntao/facexlib/releases/download/v0.1.0/alignment_WFLW_4HG.pth ..\ComfyUI\gfpgan\weights\alignment_WFLW_4HG.pth 
-https://github.com/xinntao/facexlib/releases/download/v0.1.0/detection_Resnet50_Final.pth ..\ComfyUI\gfpgan\weights\detection_Resnet50_Final.pth 
-https://github.com/TencentARC/GFPGAN/releases/download/v1.3.0/GFPGANv1.4.pth ..\ComfyUI\gfpgan\weights\GFPGANv1.4.pth 
-https://github.com/xinntao/facexlib/releases/download/v0.2.2/parsing_parsenet.pth ..\ComfyUI\gfpgan\weights\parsing_parsenet.pth 
+https://github.com/xinntao/facexlib/releases/download/v0.1.0/alignment_WFLW_4HG.pth ..\ComfyUI_windows_portable\gfpgan\weights\alignment_WFLW_4HG.pth 
+https://github.com/xinntao/facexlib/releases/download/v0.1.0/detection_Resnet50_Final.pth ..\ComfyUI_windows_portable\gfpgan\weights\detection_Resnet50_Final.pth 
+https://github.com/TencentARC/GFPGAN/releases/download/v1.3.0/GFPGANv1.4.pth ..\ComfyUI_windows_portable\gfpgan\weights\GFPGANv1.4.pth 
+https://github.com/xinntao/facexlib/releases/download/v0.2.2/parsing_parsenet.pth ..\ComfyUI_windows_portable\gfpgan\weights\parsing_parsenet.pth 
 
 image-face-fusion模型换脸模型
 链接：https://pan.baidu.com/s/19DOgJQ_RHNAjfNrzSr2uTQ?pwd=gf0p 
