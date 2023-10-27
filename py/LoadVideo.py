@@ -5,7 +5,7 @@ import torch
 import numpy as np
 from ffmpy import FFmpeg
 
-class LoadVideo:
+class LamLoadVideo:
     def __init__(self):
         self.output_dir = os.path.join(folder_paths.get_output_directory(), 'autio')
         if not os.path.exists(self.output_dir):
@@ -70,10 +70,10 @@ class LoadVideo:
         return {"ui": {"text": "音频提取成功，保存路径："+filePathName if extract_audio else '需要提取音频请设置extract_audio为True'}, "result": (torch.stack(sample_frames),fps,frames,filePathName,)}
 
 NODE_CLASS_MAPPINGS = {
-    "LoadVideo": LoadVideo
+    "LamLoadVideo": LamLoadVideo
 }
 
 # A dictionary that contains the friendly/humanly readable titles for the nodes
 NODE_DISPLAY_NAME_MAPPINGS = {
-    "LoadVideo": "视频加载"
+    "LamLoadVideo": "视频加载"
 }

@@ -71,5 +71,5 @@ NODE_CLASS_MAPPINGS = {
 
 # A dictionary that contains the friendly/humanly readable titles for the nodes
 NODE_DISPLAY_NAME_MAPPINGS = {
-    "YouDaoTranslate": "有道翻译"
+    "YouDaoTranslate": "有道翻译(接口已无法使用)"
 }

@@ -1,7 +1,7 @@
 from PIL import Image
 import numpy as np
 import torch
-class ImageBlank:
+class ImageClone:
     def __init__(self):
         pass
 
@@ -22,10 +22,10 @@ class ImageBlank:
         return (images.repeat(images.size()[0]*clone_multiple,1,1,1), )
 
 NODE_CLASS_MAPPINGS = {
-    "ImageBlank": ImageBlank
+    "ImageClone": ImageClone
 }
 
 # A dictionary that contains the friendly/humanly readable titles for the nodes
 NODE_DISPLAY_NAME_MAPPINGS = {
-    "ImageBlank": "图片克隆"
+    "ImageClone": "图片克隆"
 }
