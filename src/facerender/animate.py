@@ -219,7 +219,7 @@ class AnimateFromCoeff():
         word = word1[start_time:end_time]
         word.export(new_audio_path, format="wav")
 
-        save_video_with_watermark(path, new_audio_path, av_path, watermark= True)
+        save_video_with_watermark(path, new_audio_path, av_path, watermark= False)
         print(f'生成的头像视频名为 {video_save_dir}/{video_name}') 
 
         if 'full' in preprocess.lower():

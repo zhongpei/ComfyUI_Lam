@@ -26,7 +26,9 @@ app.registerExtension({
                 onExecuted?.apply(this, arguments);
 				for (let i = 0; i < this.widgets.length; i++) {
 					if(this.widgets[i].name=='StatusInfo'){
-						this.widgets[i].value = message.text.join('');
+                        if(message?.text){
+                            this.widgets[i].value = message.text.join('');
+                        }
 						break;
 					}
 				}
