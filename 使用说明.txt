@@ -1,4 +1,4 @@
-
+#特别说明该版本执行最新版“ComfyUI_windows_portable_nvidia_cu118_or_cpu.7z” 里面带cu121的版本
 根据图片解压到指定插件目录及名称，
 将insightface.rar解压到..\ComfyUI_windows_portable\python_embeded\Lib\site-packages目录
 将venv.rar解压到..\ComfyUI_windows_portable\python_embeded\Lib\site-packages目录
