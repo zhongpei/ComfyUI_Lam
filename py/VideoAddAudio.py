@@ -3,7 +3,6 @@ import cv2
 import os
 import torch
 import numpy as np
-from ffmpy import FFmpeg
 
 class VideoAddAudio:
     def __init__(self):
@@ -36,10 +35,9 @@ class VideoAddAudio:
         full_output_folder, filename, counter, subfolder, filename_prefix = folder_paths.get_save_image_path(filename_prefix, self.output_dir)
         file = f"{filename}_{counter:05}_.mp4"
         result=os.path.join(full_output_folder, file)
-        ff = FFmpeg(
-            inputs={videoPath: None, audioPath: None},
-            outputs={result: '-map 0:v -map 1:a -c:v copy -c:a {} -shortest'.format(_codec)})
-        ff.run()
+        #插入音频
+        cmd = r'ffmpeg -y -hide_banner -loglevel error -i "%s" -i "%s" -vcodec copy "%s"' % (videoPath, audioPath, result)
+        os.system(cmd)  
         return {"ui": {"text": "视频插入音频成功，保存路径："+result,
         'videos':[{'filename':file,'type':'output','subfolder':'video'}]}}
 

@@ -3,7 +3,6 @@ import cv2
 import os
 import torch
 import numpy as np
-from ffmpy import FFmpeg
 
 class LamLoadVideo:
     def __init__(self):
@@ -65,8 +64,9 @@ class LamLoadVideo:
             full_output_folder, filename, counter, subfolder, filename_prefix = folder_paths.get_save_image_path(filename_prefix, self.output_dir)
             file = f"{filename}_{counter:05}_.mp3"
             filePathName=os.path.join(full_output_folder, file)
-            ff = FFmpeg(inputs={videoPath: None},outputs={filePathName: '-f {} -vn'.format('mp3')})
-            ff.run()
+            #提取音频
+            cmd = r"ffmpeg -y -hide_banner -loglevel error -i %s %s"%(videoPath, filePathName)
+            os.system(cmd)  
         return {"ui": {"text": "音频提取成功，保存路径："+filePathName if extract_audio else '需要提取音频请设置extract_audio为True'}, "result": (torch.stack(sample_frames),fps,frames,filePathName,)}
 
 NODE_CLASS_MAPPINGS = {

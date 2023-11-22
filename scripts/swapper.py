@@ -9,6 +9,7 @@ THREAD_LOCK = threading.Lock()
 FACE_ANALYSER = None
 
 def getFaceSwapModel(model_path: str):
+    
     FS_MODEL = insightface.model_zoo.get_model(model_path, providers=providers)
     return FS_MODEL
 

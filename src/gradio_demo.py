@@ -12,7 +12,6 @@ from custom_nodes.ComfyUI_Lam.src.test_audio2coeff_two import Audio2Coeff as Aud
 from custom_nodes.ComfyUI_Lam.src.facerender.animate_two import AnimateFromCoeff as AnimateFromCoefft
 from custom_nodes.ComfyUI_Lam.src.generate_batch_two import get_data as get_datat
 from custom_nodes.ComfyUI_Lam.src.generate_facerender_batch_two import get_facerender_data as get_facerender_datat
-from custom_nodes.ComfyUI_Lam.third_part.GFPGAN.gfpgan import GFPGANer
 from custom_nodes.ComfyUI_Lam.third_part.GPEN.gpen_face_enhancer import FaceEnhancement
 import warnings
 
@@ -76,8 +75,7 @@ class SadTalker():
         print(mapping_checkpoint)
         animate_from_coeff = AnimateFromCoefft(free_view_checkpoint, mapping_checkpoint, facerender_yaml_path, self.device)
 
-        restorer_model = GFPGANer(model_path=os.path.join(self.checkpoint_path,'GFPGANv1.3.pth'), upscale=1, arch='clean',
-                                channel_multiplier=2, bg_upsampler=None)
+        
         enhancer_model = FaceEnhancement(base_dir=self.checkpoint_path, size=512, model='GPEN-BFR-512', use_sr=False,
                                         sr_model='rrdb_realesrnet_psnr', channel_multiplier=2, narrow=1,device=self.device)
 
@@ -97,8 +95,9 @@ class SadTalker():
         coeff_path = audio_to_coeff.generate(batch, save_dir)
         # coeff2video
         data = get_facerender_datat(coeff_path, crop_pic_path, first_coeff_path, audio_path, batch_size, self.device)
+        enhancer='none'
         tmp_path, new_audio_path, return_path = animate_from_coeff.generate(data, save_dir, pic_path, crop_info,
-                                                                            restorer_model, enhancer_model, enhancer)
+                                                                            'none', enhancer_model, enhancer)
         torch.cuda.empty_cache()
         if use_DAIN:
             import paddle

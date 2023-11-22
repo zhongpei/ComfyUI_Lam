@@ -5,7 +5,7 @@ import uuid
 from custom_nodes.ComfyUI_Lam.src.inference_utils import Laplacian_Pyramid_Blending_with_mask
 
 
-def paste_pic(video_path, pic_path, crop_info, new_audio_path, full_video_path, restorer, enhancer, enhancer_region):
+def paste_pic(video_path, pic_path, crop_info, new_audio_path, full_video_path, restorer, enhancer, enhancer_region="none"):
     video_stream_input = cv2.VideoCapture(pic_path)
     full_img_list = []
     while 1:

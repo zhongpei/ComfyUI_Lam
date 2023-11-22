@@ -1,7 +1,4 @@
-
-根据图片解压到指定插件目录及名称，
-将insightface.rar解压到..\ComfyUI_windows_portable\python_embeded\Lib\site-packages目录
-将venv.rar解压到..\ComfyUI_windows_portable\python_embeded\Lib\site-packages目录
+#特别说明该版本执行最新版“ComfyUI_windows_portable_nvidia_cu121_or_cpu.7z” 里面带cu121的版本
 然后运行install.bat文件，未报错后就可以了，
 
 模型地址，及存放路径：
@@ -13,22 +10,11 @@ https://github.com/OpenTalker/SadTalker/releases/download/v0.0.2-rc/mapping_0022
 https://github.com/OpenTalker/SadTalker/releases/download/v0.0.2-rc/SadTalker_V0.0.2_256.safetensors ..\ComfyUI\models\SadTalker\SadTalker_V0.0.2_256.safetensors
 https://github.com/OpenTalker/SadTalker/releases/download/v0.0.2-rc/SadTalker_V0.0.2_512.safetensors ..\ComfyUI\models\SadTalker\SadTalker_V0.0.2_512.safetensors
 
-gfpgan是根据启动目录来的，根据提示对应
-https://github.com/xinntao/facexlib/releases/download/v0.1.0/alignment_WFLW_4HG.pth ..\ComfyUI_windows_portable\gfpgan\weights\alignment_WFLW_4HG.pth 
-https://github.com/xinntao/facexlib/releases/download/v0.1.0/detection_Resnet50_Final.pth ..\ComfyUI_windows_portable\gfpgan\weights\detection_Resnet50_Final.pth 
-https://github.com/TencentARC/GFPGAN/releases/download/v1.3.0/GFPGANv1.4.pth ..\ComfyUI_windows_portable\gfpgan\weights\GFPGANv1.4.pth 
-https://github.com/xinntao/facexlib/releases/download/v0.2.2/parsing_parsenet.pth ..\ComfyUI_windows_portable\gfpgan\weights\parsing_parsenet.pth 
 
 image-face-fusion模型换脸模型
 链接：https://pan.baidu.com/s/19DOgJQ_RHNAjfNrzSr2uTQ?pwd=gf0p 
 提取码：gf0p
 解压到 ..\ComfyUI\models\image-face-fusion 目录
-
-roop-face-swap模型换脸模型
-链接：https://pan.baidu.com/s/1cJeRtqgdeNW21Hljwuv-tA?pwd=b4yy 
-提取码：b4yy
-解压到 ..\ComfyUI\models\roop-face-swap 目录
-
 
 
 修改comfyUI根目录下的execution.py文件，修改内容为,搜索“Return type mismatch between linked nodes”找到对应行，
