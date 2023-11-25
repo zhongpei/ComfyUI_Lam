@@ -40,17 +40,17 @@ def download_models():
 # proc.wait()
 # print("upgrade pip done")
 
-command = [sys.executable]
-if "python_embeded" in sys.executable: command += ['-s']
-command += ['-m','pip', 'install','--use-pep517', '-r' , f'{EXT_PATH}/requirements.txt', 
-    '--index-url' , 'https://mirrors.aliyun.com/pypi/simple',
-    '--extra-index-url', 'https://download.pytorch.org/whl/cu117', '--no-warn-script-location']
-print("Installing requirements...")
-sleep(2)
-proc = subprocess.Popen(command, stdout=subprocess.PIPE, bufsize=1, universal_newlines=True)
-for line in iter(proc.stdout.readline, ''):
-    print(line, end='')
-proc.wait()
+# command = [sys.executable]
+# if "python_embeded" in sys.executable: command += ['-s']
+# command += ['-m','pip', 'install','--use-pep517', '-r' , f'{EXT_PATH}/requirements.txt', 
+#     '--index-url' , 'https://mirrors.aliyun.com/pypi/simple',
+#     '--extra-index-url', 'https://download.pytorch.org/whl/cu117', '--no-warn-script-location']
+# print("Installing requirements...")
+# sleep(2)
+# proc = subprocess.Popen(command, stdout=subprocess.PIPE, bufsize=1, universal_newlines=True)
+# for line in iter(proc.stdout.readline, ''):
+#     print(line, end='')
+# proc.wait()
 print("Installing requirements done")
 
 if args.no_download_ckpts: exit()

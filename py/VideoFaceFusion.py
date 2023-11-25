@@ -4,9 +4,9 @@ import sys
 import torch
 import model_management
 import numpy as np
-from custom_nodes.ComfyUI_Lam.src.face_fusion.image_face_fusion import ImageFaceFusion
-from custom_nodes.ComfyUI_Lam.facelib.utils.face_restoration_helper import FaceRestoreHelper
-from custom_nodes.ComfyUI_Lam.facelib.detection.retinaface import retinaface
+from .facelib.utils.face_restoration_helper import FaceRestoreHelper
+from .facelib.detection.retinaface import retinaface
+from .face_fusion.image_face_fusion import ImageFaceFusion
 from PIL import Image
 import folder_paths
 import imageio
