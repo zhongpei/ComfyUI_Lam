@@ -2,8 +2,8 @@ import cv2
 import os
 import torch
 import numpy as np
-from custom_nodes.ComfyUI_Lam.src.face_fusion.image_face_fusion import ImageFaceFusion
-from custom_nodes.ComfyUI_Lam.third_part.GFPGAN.gfpgan import GFPGANer
+from .src.face_fusion.image_face_fusion import ImageFaceFusion
+from .third_part.GFPGAN.gfpgan import GFPGANer
 from PIL import Image
 import folder_paths
 from ffmpy import FFmpeg

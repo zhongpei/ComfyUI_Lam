@@ -2,8 +2,8 @@ import cv2
 import os
 import torch
 import numpy as np
-from custom_nodes.ComfyUI_Lam.scripts.swapper import getFaceSwapModel,get_face_single
-from custom_nodes.ComfyUI_Lam.third_part.GFPGAN.gfpgan import GFPGANer
+from .scripts.swapper import getFaceSwapModel,get_face_single
+from .third_part.GFPGAN.gfpgan import GFPGANer
 from PIL import Image
 import folder_paths
 from ffmpy import FFmpeg

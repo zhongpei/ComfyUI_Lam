@@ -3,7 +3,7 @@ import torch
 import comfy.utils
 import numpy as np
 import cv2
-from custom_nodes.ComfyUI_Lam.lama import LamaInpainting
+from .lama import LamaInpainting
 
 def pad64(x):
     return int(np.ceil(float(x) / 64.0) * 64 - x)
