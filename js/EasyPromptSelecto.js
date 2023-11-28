@@ -251,23 +251,6 @@ app.registerExtension({
                 return r;
             };
 
-            // When the node is executed we will be sent the input text, display this in the widget
-            const onExecuted = nodeType.prototype.onExecuted;
-            nodeType.prototype.onExecuted = function(message) {
-                onExecuted?.apply(this, arguments);
-				for (let i = 0; i < this.widgets.length; i++) {
-					if(this.widgets[i].name=='StatusInfo'){
-                        if(message?.text){
-                            this.widgets[i].value = message.text.join('');
-                        }
-						break;
-					}
-				}
-
-                if (this.size[1] < 200) {
-                    this.setSize([this.size[0], 200]);
-                }
-            };
         }
     },
 });
