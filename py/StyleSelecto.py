@@ -84,7 +84,6 @@ class StyleSelecto:
             if node["id"] == int(unique_id):
                 values = node["properties"]["values"]
                 break
-        print(values,'================')
         for root, dirs, files in os.walk(self.dir):
             for file in files:
                 if file.endswith(".json") and file.split(".")[0].find("styles")!=-1:
@@ -96,7 +95,6 @@ class StyleSelecto:
                             prompt=d['prompt'].format(prompt=prompt)
                             negative_prompt+=','+d['negative_prompt']
                             break
-        print(prompt,'================',negative_prompt)
 
         return (prompt,negative_prompt)
 
