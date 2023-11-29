@@ -186,7 +186,7 @@ app.registerExtension({
                             this.properties["values"]=[]
                         }}
                     ),list]));
-                let st_values=''
+                let st_values=style_type.options.values[0]
                 Object.defineProperty(style_type, "value", {
                     set: (x) => {
                         st_values=x
