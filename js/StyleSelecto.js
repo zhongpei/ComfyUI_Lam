@@ -5,40 +5,41 @@ import { api } from "../../../scripts/api.js";
 
 $el("style", {
 	textContent: `
-    .lam-model-info {
+    .lam_style-model-info {
         color: white;
         font-family: sans-serif;
         max-width: 90vw;
     }
-    .lam-model-content {
+    .lam_style-model-content {
         display: flex;
         flex-direction: column;
         overflow: hidden;
     }
-    .lam-model-info h2 {
+    .lam_style-model-info h2 {
         text-align: center;
         margin: 0 0 10px 0;
     }
-    .lam-model-info p {
+    .lam_style-model-info p {
         margin: 5px 0;
     }
-    .lam-model-info a {
+    .lam_style-model-info a {
         color: dodgerblue;
     }
-    .lam-model-info a:hover {
+    .lam_style-model-info a:hover {
         text-decoration: underline;
     }
-    .lam-model-tags-list {
+    .lam_style-model-tags-list {
         display: flex;
         flex-wrap: wrap;
         list-style: none;
         gap: 10px;
         min-height: 260px;
+        height: 80%;
         overflow: auto;
         margin: 10px 0;
         padding: 0;
     }
-    .lam-model-tag {
+    .lam_style-model-tag {
         background-color: rgb(128, 213, 247);
         color: #000;
         display: flex;
@@ -48,7 +49,7 @@ $el("style", {
         padding: 2px 5px;
         cursor: pointer;
     }
-    .lam-model-tag--selected span::before {
+    .lam_style-model-tag--selected span::before {
         content: "✅";
         position: absolute;
         background-color: dodgerblue;
@@ -57,13 +58,13 @@ $el("style", {
         bottom: 0;
         text-align: center;
     }
-    .lam-model-tag:hover {
+    .lam_style-model-tag:hover {
         outline: 2px solid dodgerblue;
     }
-    .lam-model-tag p {
+    .lam_style-model-tag p {
         margin: 0;
     }
-    .lam-model-tag span {
+    .lam_style-model-tag span {
         text-align: center;
         border-radius: 5px;
         background-color: dodgerblue;
@@ -74,27 +75,27 @@ $el("style", {
         overflow: hidden;
     }
     
-    .lam-model-metadata .comfy-modal-content {
+    .lam_style-model-metadata .comfy-modal-content {
         max-width: 100%;
     }
-    .lam-model-metadata label {
+    .lam_style-model-metadata label {
         margin-right: 1ch;
         color: #ccc;
     }
     
-    .lam-model-metadata span {
+    .lam_style-model-metadata span {
         color: dodgerblue;
     }
     
-    .lam-preview {
+    .lam_style-preview {
         max-width: 50%;
         margin-left: 10px;
         position: relative;
     }
-    .lam-preview img {
+    .lam_style-preview img {
         max-height: 300px;
     }
-    .lam-preview button {
+    .lam_style-preview button {
         position: absolute;
         font-size: 12px;
         bottom: 10px;
@@ -106,12 +107,12 @@ $el("style", {
         border-style: solid;
         margin-top: 2px;
     }
-    .lam-model-notes {
+    .lam_style-model-notes {
         background-color: rgba(0, 0, 0, 0.25);
         padding: 5px;
         margin-top: 5px;
     }
-    .lam-model-notes:empty {
+    .lam_style-model-notes:empty {
         display: none;
     }    
 
@@ -139,14 +140,14 @@ function getTagList(tags) {
     tags.forEach((k,i) => {
         let t=[ k['zhName'],k['name']]
         rlist.push($el(
-            "li.lam-model-tag",
+            "li.lam_style-model-tag",
             {
                 dataset: {
                     tag: t[1],
                 },
                 $: (el) => {
                     el.onclick = () => {
-                        el.classList.toggle("lam-model-tag--selected");
+                        el.classList.toggle("lam_style-model-tag--selected");
                     };
                 },
             },
@@ -175,13 +176,13 @@ app.registerExtension({
                 let style_type = this.widgets[this.widgets.findIndex(obj => obj.name === 'style_type')];
                 this.setProperty("values", [])
                 //stylesEl.inputEl.classList.add("lam-model-notes");
-                const list = $el("ol.lam-model-tags-list",[]);
-                let styles=this.addDOMWidget('button',"btn",$el('div.lam-preview',[$el('button',{
+                const list = $el("ol.lam_style-model-tags-list",[]);
+                let styles=this.addDOMWidget('button',"btn",$el('div.lam_style-preview',[$el('button',{
                     textContent:'清除全部选择',
                     style:{},
                     onclick:()=>{
-                            styles.element.children[1].querySelectorAll(".lam-model-tag--selected").forEach(el => {
-                                el.classList.remove("lam-model-tag--selected");
+                            styles.element.children[1].querySelectorAll(".lam_style-model-tag--selected").forEach(el => {
+                                el.classList.remove("lam_style-model-tag--selected");
                             })
                             this.properties["values"]=[]
                         }}
@@ -196,9 +197,9 @@ app.registerExtension({
                             if(pb_cache[st_values]){
                                     let list =getTagList(pb_cache[st_values]);
                                     styles.element.children[1].append(...list)
-                                    styles.element.children[1].querySelectorAll(".lam-model-tag").forEach(el => {
+                                    styles.element.children[1].querySelectorAll(".lam_style-model-tag").forEach(el => {
                                     if(this.properties["values"].includes(el.dataset.tag)){
-                                        el.classList.add("lam-model-tag--selected");
+                                        el.classList.add("lam_style-model-tag--selected");
                                     }
                                     this.setSize([500, 400]);
                                 });
@@ -210,9 +211,9 @@ app.registerExtension({
                         if(pb_cache[st_values]&&styles.element.children[1].children.length==0){
                                 let list =getTagList(pb_cache[st_values]);
                                 styles.element.children[1].append(...list)
-                                styles.element.children[1].querySelectorAll(".lam-model-tag").forEach(el => {
+                                styles.element.children[1].querySelectorAll(".lam_style-model-tag").forEach(el => {
                                 if(this.properties["values"].includes(el.dataset.tag)){
-                                    el.classList.add("lam-model-tag--selected");
+                                    el.classList.add("lam_style-model-tag--selected");
                                 }
                                 this.setSize([500, 400]);
                             });
@@ -226,8 +227,8 @@ app.registerExtension({
                         
                     },
                     get: () => {
-                            styles.element.children[1].querySelectorAll(".lam-model-tag").forEach(el => {
-                            if(el.classList.value.indexOf("lam-model-tag--selected")>=0){
+                            styles.element.children[1].querySelectorAll(".lam_style-model-tag").forEach(el => {
+                            if(el.classList.value.indexOf("lam_style-model-tag--selected")>=0){
                                 if(!this.properties["values"].includes(el.dataset.tag)){
                                     this.properties["values"].push(el.dataset.tag);
                                     stylesValue = this.properties["values"].join(',');
