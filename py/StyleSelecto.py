@@ -30,7 +30,7 @@ def getStyles(request):
                         nd={}
                         name=d['name'].replace('-',' ')
                         words=name.split(' ')
-                        key=' '.join(word.upper() if word in ['mre','sai'] else word.capitalize() for word in words)
+                        key=' '.join(word.upper() if word.lower() in ['mre','sai','3d'] else word.capitalize() for word in words)
                         nd['zhName']=zhData[key] if key in zhData else key
                         nd["name"]=d['name']
                         ndata.append(nd)
@@ -45,7 +45,15 @@ class StyleSelecto:
         dir = os.path.abspath(os.path.join(__file__, "../../styles"))
         if not os.path.exists(dir):
             os.mkdir(dir)
-        self.dir=dir
+        self.styleAll={}
+        for root, dirs, files in os.walk(dir):
+            for file in files:
+                if file.endswith(".json") and file.split(".")[0].find("styles")!=-1:
+                    f = open(os.path.join(root, file), 'r', encoding='utf-8')
+                    data = json.load(f)
+                    f.close()
+                    for d in data:
+                        self.styleAll[d['name']] = d
     
     @classmethod
     def INPUT_TYPES(self):
@@ -72,29 +80,21 @@ class StyleSelecto:
     RETURN_TYPES = ("STRING","STRING",)
     RETURN_NAMES = ("正向提示词","反向提示词",)
 
-    FUNCTION = "translate"
+    FUNCTION = "get_style"
 
     #OUTPUT_NODE = False
 
     CATEGORY = "lam"
 
-    def translate(self,prompt,style_type,extra_pnginfo, unique_id,negative_prompt=""):
+    def get_style(self,prompt,style_type,extra_pnginfo, unique_id,negative_prompt=""):
         values = []
         for node in extra_pnginfo["workflow"]["nodes"]:
             if node["id"] == int(unique_id):
                 values = node["properties"]["values"]
                 break
-        for root, dirs, files in os.walk(self.dir):
-            for file in files:
-                if file.endswith(".json") and file.split(".")[0].find("styles")!=-1:
-                    f = open(os.path.join(root, file), 'r', encoding='utf-8')
-                    data = json.load(f)
-                    f.close()
-                    for d in data:
-                        if d['name'] in values:
-                            prompt=d['prompt'].format(prompt=prompt)
-                            negative_prompt+=','+d['negative_prompt']
-                            break
+        for val in values:
+            prompt=self.styleAll[val]['prompt'].format(prompt=prompt)
+            negative_prompt+=','+self.styleAll[val]['negative_prompt']
 
         return (prompt,negative_prompt)
 

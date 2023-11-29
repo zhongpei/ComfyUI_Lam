@@ -33,8 +33,7 @@ $el("style", {
         flex-wrap: wrap;
         list-style: none;
         gap: 10px;
-        min-height: 100px;
-        max-height: 400px;
+        min-height: 260px;
         overflow: auto;
         margin: 10px 0;
         padding: 0;
@@ -100,6 +99,12 @@ $el("style", {
         font-size: 12px;
         bottom: 10px;
         right: 10px;
+        color: var(--input-text);
+        background-color: var(--comfy-input-bg);
+        border-radius: 8px;
+        border-color: var(--border-color);
+        border-style: solid;
+        margin-top: 2px;
     }
     .lam-model-notes {
         background-color: rgba(0, 0, 0, 0.25);
@@ -171,18 +176,27 @@ app.registerExtension({
                 this.setProperty("values", [])
                 //stylesEl.inputEl.classList.add("lam-model-notes");
                 const list = $el("ol.lam-model-tags-list",[]);
-                let styles=this.addDOMWidget('styles',"list",list)
+                let styles=this.addDOMWidget('button',"btn",$el('div.lam-preview',[$el('button',{
+                    textContent:'清除全部选择',
+                    style:{},
+                    onclick:()=>{
+                            styles.element.children[1].querySelectorAll(".lam-model-tag--selected").forEach(el => {
+                                el.classList.remove("lam-model-tag--selected");
+                            })
+                            this.properties["values"]=[]
+                        }}
+                    ),list]));
                 let st_values=''
                 Object.defineProperty(style_type, "value", {
                     set: (x) => {
                         st_values=x
                         if(st_values){
                             getStyles(st_values);
-                            styles.element.innerHTML=''
+                            styles.element.children[1].innerHTML=''
                             if(pb_cache[st_values]){
                                     let list =getTagList(pb_cache[st_values]);
-                                    styles.element.append(...list)
-                                    styles.element.querySelectorAll(".lam-model-tag").forEach(el => {
+                                    styles.element.children[1].append(...list)
+                                    styles.element.children[1].querySelectorAll(".lam-model-tag").forEach(el => {
                                     if(this.properties["values"].includes(el.dataset.tag)){
                                         el.classList.add("lam-model-tag--selected");
                                     }
@@ -193,10 +207,10 @@ app.registerExtension({
                         }
                     },
                     get: () => {
-                        if(pb_cache[st_values]&&styles.element.children.length==0){
+                        if(pb_cache[st_values]&&styles.element.children[1].children.length==0){
                                 let list =getTagList(pb_cache[st_values]);
-                                styles.element.append(...list)
-                                styles.element.querySelectorAll(".lam-model-tag").forEach(el => {
+                                styles.element.children[1].append(...list)
+                                styles.element.children[1].querySelectorAll(".lam-model-tag").forEach(el => {
                                 if(this.properties["values"].includes(el.dataset.tag)){
                                     el.classList.add("lam-model-tag--selected");
                                 }
@@ -212,7 +226,7 @@ app.registerExtension({
                         
                     },
                     get: () => {
-                            styles.element.querySelectorAll(".lam-model-tag").forEach(el => {
+                            styles.element.children[1].querySelectorAll(".lam-model-tag").forEach(el => {
                             if(el.classList.value.indexOf("lam-model-tag--selected")>=0){
                                 if(!this.properties["values"].includes(el.dataset.tag)){
                                     this.properties["values"].push(el.dataset.tag);
@@ -233,6 +247,7 @@ app.registerExtension({
                 this.setSize([500, 400]);
                 return r;
             };
+
 
         }
     },
