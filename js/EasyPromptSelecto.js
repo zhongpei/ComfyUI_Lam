@@ -193,6 +193,7 @@ app.registerExtension({
                         return cat_values;
                     }
                 });
+                let text_value=[]
                 Object.defineProperty(category, "value", {
                     set: (x) => {
                         if(cat_value!=x){
@@ -200,7 +201,6 @@ app.registerExtension({
                             if(!cat_value){
                                 return 
                             }
-                            let textvalue=textEl.value
                             if(this.widgets.length!=4){
                                 const list = $el("ol.lam-model-tags-list", getTagList(pb_cache[prompt_type.value][cat_value]));
                                 this.addDOMWidget('tags',"list",list)
@@ -212,7 +212,7 @@ app.registerExtension({
                                 }
                             }
                             this.widgets[3].element.querySelectorAll(".lam-model-tag").forEach(el => {
-                                if(textvalue.indexOf(el.dataset.tag)!==-1){
+                                if(text_value.includes(el.dataset.tag)){
                                     el.classList.add("lam-model-tag--selected");
                                 }
                             });
@@ -222,9 +222,7 @@ app.registerExtension({
                     get: () => {
                         return cat_value;
                     }
-                });
-                let text_value=''
-               
+                });               
                 Object.defineProperty(tags, "value", {
                     set: (x) => {
                         
@@ -232,14 +230,14 @@ app.registerExtension({
                     get: () => {
                         this.widgets[3].element.querySelectorAll(".lam-model-tag").forEach(el => {
                             if(el.classList.value.indexOf("lam-model-tag--selected")>=0){
-                                if(textEl.value.indexOf(el.dataset.tag)===-1){
-                                    textEl.value+=(textEl.value&&textEl.value[textEl.value.length-1]===',')?el.dataset.tag+',':','+el.dataset.tag+',';
+                                if(!text_value.includes(el.dataset.tag)){
+                                    text_value.push(el.dataset.tag);
+                                    textEl.value=text_value.join(',');
                                 }
                             }else{
-                                if(textEl.value.indexOf(el.dataset.tag)!==-1&&textEl.value.indexOf(','+el.dataset.tag)!==-1
-                                &&textEl.value.indexOf(el.dataset.tag+',')!==-1
-                                ){
-                                    textEl.value=textEl.value.replace(el.dataset.tag+',','');
+                                if(text_value.includes(el.dataset.tag)){
+                                    text_value=text_value.filter(v=>v!=el.dataset.tag);
+                                    textEl.value=text_value.join(',');
                                 }
                             }
                             
