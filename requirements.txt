@@ -26,7 +26,7 @@ qrcode==7.4.2
 edge_tts
 asyncio
 opencv-python==4.7.0.72
-pillow==9.4.0
+pillow==10.0.1
 ffmpy==0.3.0
 dlib-bin
 GitPython
