@@ -14,7 +14,7 @@ kornia==0.6.8
 tqdm==4.64.1
 yacs==0.1.8
 pyyaml==6.0  
-joblib==1.1.0
+joblib==1.2.0
 scikit-image==0.19.3
 basicsr==1.4.2
 facexlib==0.3.0
